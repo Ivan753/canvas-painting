@@ -16,6 +16,6 @@ id:<ul>
  </ul>
 There are three states for the menu: none (hidden), less (only standard colors) and pro (any colors)
 <img src="1.png"/>
-The _CanvasDrawerADIO_ element can be found anywhere on the page, no styles are required for it.<br>
+The <i>CanvasDrawerADIO</i> element can be found anywhere on the page, no styles are required for it.<br>
 
 If you have any questions or suggestions, please contact ivan-753s@mail.ru .
