@@ -1,5 +1,5 @@
-# canvas-painting
-  cPainting is a special module created on your web site for drawing canvas. This module is supported by all PC browsers that support work with <i><canvas></i>.
+# canvas-painting 
+  cPainting v1.0 is a special module created on your web site for drawing canvas. This module is supported by all PC browsers that support work with <i><canvas></i>.
 <img src="2.png" />
 <hr color="#cccccc" />
 <h3>How to connect?</h3></br>
