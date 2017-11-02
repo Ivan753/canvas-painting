@@ -1,12 +1,12 @@
 /*!
- * cPaiтting JavaScript Modul v1.
+ * cPaiтting JavaScript Modul v1.0
  *
  * Application for drawing in canvas 
  *
  * developed by Ivan Bugaev
  * mailto: ivan-753s@mail.ru
  * 
- * Date: 2017-11-02T 15:50 
+ * Date: 2017-11-02 15:50 
  *
  * documentation   https://github.com/Ivan753/canvas-painting
  */
@@ -31,7 +31,7 @@ settings = {
 		border: '1px solid #555555'
 	},
 	means: 'pen',                //drawing tools: pen, pointer, cleaner, (line, rectangle, circle)
-	cleaner: {                   //размеры ластика
+	cleaner: {                   //cleaner's size
 		width: 50,
 		height: 20,
 	},
