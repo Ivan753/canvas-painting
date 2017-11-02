@@ -46,7 +46,7 @@ settings = {
 
 var TEXT_inp_size = 'size (px)',
 TEXT_inp_color = 'color',
-TEXT_inp_means = 'means',
+TEXT_inp_means = 'tools',
 TEXT_pen = 'pen',
 TEXT_pointer = 'pointer',
 TEXT_cleaner = 'cleaner',
