@@ -4,8 +4,8 @@
 <hr color="#cccccc" />
 <h3>How to connect?</h3></br>
 To connect, you need to connect it to the <i><script></i> tag, create an element <i>&lt;div id ="CanvasDrawerADIO"&gt; &lt;/div&gt;</i> on the page and call the <i>startCreateDesigner()</i> function (see <i>index.html</i>).
-Note that this function is called by default after the module is loaded. All the settings that are implemented at the moment, you can find at the beginning of the module - object <i>settings</i>.<br>
-Attention: the global <i>settings</i> object and the global function <i>startCreateDesigner()</i> are created for module operation. And also the CSS classes: AIDO_inputs and AIDO_labels.<br> 
+Note that this function is called by default after the module is loaded. All the settings that are implemented at the moment, you can find at the beginning of the module - object <i>cPainting_settings</i>.<br>
+Attention: the global <i>cPainting_settings</i> object and the global function <i>startCreateDesigner()</i> are created for module operation. And also the CSS classes: AIDO_inputs and AIDO_labels.<br> 
 id:<ul>
  <li>AIDO_inp_means</li>
  <li>AIDO_inp_color</li>
