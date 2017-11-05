@@ -15,8 +15,8 @@
  
 (function(){
 
-//object settings
-settings = {
+//object  cPainting_settings
+ cPainting_settings = {
 		
 	width: 500,                  //width canvas
 	height: 500,                 //height
@@ -74,11 +74,11 @@ try{
 
 	var canvas = document.createElement('canvas');
 
-	canvas.setAttribute('width', settings.width + 'px');
-	canvas.setAttribute('height', settings.height + 'px');
+	canvas.setAttribute('width', cPainting_settings.width + 'px');
+	canvas.setAttribute('height', cPainting_settings.height + 'px');
 
 	canvas.style.position = 'absolute';
-	canvas.style.backgroundColor = settings.bg;
+	canvas.style.backgroundColor = cPainting_settings.bg;
 	canvas.style.border = '1px solid #000';
 	canvas.id = 'CanvasDrawerADIO1';
 	doc.appendChild(canvas);
@@ -123,7 +123,7 @@ try{
 	canvas.onmouseup = function(e){
 		paint = false;
 
-		if((settings.means == 'pen') || (settings.means == 'cleaner')){ //
+		if((cPainting_settings.means == 'pen') || (cPainting_settings.means == 'cleaner')){ //
 			clickX = [];
 			clickY = [];
 			clickclickDrag = [];
@@ -135,7 +135,7 @@ try{
 	canvas.onmouseleave = function(e){
 		paint = false;
 
-		if((settings.means == 'pen') || (settings.means == 'cleaner')){ //clear x y
+		if((cPainting_settings.means == 'pen') || (cPainting_settings.means == 'cleaner')){ //clear x y
 			clickX = [];
 			clickY = [];
 			clickclickDrag = [];
@@ -158,14 +158,14 @@ try{
 
 
 
-	ctx.strokeStyle = settings.color;
+	ctx.strokeStyle = cPainting_settings.color;
 	ctx.lineJoin = 'round';
 	ctx.lineCup = 'round';
-	ctx.lineWidth = settings.sizeLine;
+	ctx.lineWidth = cPainting_settings.sizeLine;
 
 	function redraw(){
 			
-		switch(settings.means){
+		switch(cPainting_settings.means){
 		case 'pen':
 
 			for(var i=0; i < clickX.length; i++) {		
@@ -223,7 +223,7 @@ try{
 			ctx.moveTo(clickX[i]-1, clickY[i]);
 			}
 			
-			ctx.clearRect(clickX[i], clickY[i], settings.cleaner.width, settings.cleaner.height); // Очистим холст	
+			ctx.clearRect(clickX[i], clickY[i], cPainting_settings.cleaner.width, cPainting_settings.cleaner.height); // Очистим холст	
 			ctx.closePath();
 			ctx.stroke();
 			}
@@ -239,13 +239,13 @@ try{
 
 	change_style = (function(n){
 		switch(n){
-			case 1: ctx.lineWidth = inp_size.value; settings.sizeLine = inp_size.value;   break;
-			case 2: ctx.strokeStyle = inp_color.value; settings.color = inp_color.value; value_color.style.backgroundColor = inp_color.value; break;
-			case 3: settings.means = inp_means.value;  break;
-			case 4: settings.means = select_mean.value; inp_means.value = select_mean.value;  break;
-			case 'width_cleaner': settings.cleaner.width = inp_sett_cleaner_width.value; break;
-			case 'height_cleaner': settings.cleaner.height = inp_sett_cleaner_height.value; break;
-			case 6: ctx.strokeStyle = arguments[1]; settings.color = arguments[1];  break;
+			case 1: ctx.lineWidth = inp_size.value; cPainting_settings.sizeLine = inp_size.value;   break;
+			case 2: ctx.strokeStyle = inp_color.value; cPainting_settings.color = inp_color.value; value_color.style.backgroundColor = inp_color.value; break;
+			case 3: cPainting_settings.means = inp_means.value;  break;
+			case 4: cPainting_settings.means = select_mean.value; inp_means.value = select_mean.value;  break;
+			case 'width_cleaner': cPainting_settings.cleaner.width = inp_sett_cleaner_width.value; break;
+			case 'height_cleaner': cPainting_settings.cleaner.height = inp_sett_cleaner_height.value; break;
+			case 6: ctx.strokeStyle = arguments[1]; cPainting_settings.color = arguments[1];  break;
 			default: throw 'ADIO_Error: uncorrect argument in "change_style" .'; break;
 		}
 	});
@@ -253,17 +253,17 @@ try{
 
 
 	// ! create control
-	if(settings.menu.level !== 'none'){
+	if(cPainting_settings.menu.level !== 'none'){
 			
 		var menu = document.createElement('div');
 
 		menu.style.padding = '5px';
-		menu.style.border = settings.menu.border;
+		menu.style.border = cPainting_settings.menu.border;
 		menu.style.width = '160px';
-		menu.style.position = settings.menu.position;
+		menu.style.position = cPainting_settings.menu.position;
 		menu.style.backgroundColor = settings.menu.backgroundColor;
-		menu.style.opacity = settings.menu.opacity;
-		menu.style.left = settings.width + 'px';
+		menu.style.opacity = cPainting_settings.menu.opacity;
+		menu.style.left = cPainting_settings.width + 'px';
 		menu.id = 'ADIO_Menu';
 		
 		
@@ -275,8 +275,8 @@ try{
 		inp_sett_cleaner_height.className = 'AIDO_inputs';
 		inp_sett_cleaner_width.id = 'inp_sett_cleaner_width';
 		inp_sett_cleaner_height.id = 'inp_sett_cleaner_height';
-		inp_sett_cleaner_width.value = settings.cleaner.width;
-		inp_sett_cleaner_height.value = settings.cleaner.height;
+		inp_sett_cleaner_width.value = cPainting_settings.cleaner.width;
+		inp_sett_cleaner_height.value = cPainting_settings.cleaner.height;
 		var label = document.createElement('label');
 		label.className = 'AIDO_labels';
 		label.setAttribute('for', 'AIDO_setting_cleaner');
@@ -328,9 +328,9 @@ try{
 		inp_size.className = 'AIDO_inputs'; 
 		inp_color.className = 'AIDO_inputs'; 
 		inp_means.className = 'AIDO_inputs';
-		inp_size.value = settings.sizeLine; 
-		inp_color.value = settings.color; 
-		inp_means.value = settings.means;
+		inp_size.value = cPainting_settings.sizeLine; 
+		inp_color.value = cPainting_settings.color; 
+		inp_means.value = cPainting_settings.means;
 		
 
 		
@@ -353,22 +353,22 @@ try{
 		label.setAttribute('for', 'AIDO_inp_color');
 		label.innerHTML = TEXT_inp_color;
 		div_inp.appendChild(label);
-		(settings.menu.level == 'pro')?div_inp.appendChild(inp_color): undefined;
+		(cPainting_settings.menu.level == 'pro')?div_inp.appendChild(inp_color): undefined;
 		menu.appendChild(div_inp);
 		delete div_inp;
 		delete label;
 		
-		if(settings.menu.level == 'pro'){
+		if(cPainting_settings.menu.level == 'pro'){
 			var value_color = document.createElement('div');
 			value_color.style.width = '150px';
 			value_color.style.height = '20px';
 			value_color.style.margin = '5px';
-			value_color.style.backgroundColor = settings.color;
+			value_color.style.backgroundColor = cPainting_settings.color;
 			menu.appendChild(value_color);
 		}else{
 			var div_value_color = document.createElement('div');
 			
-			for(let i = 0; i < settings.standart_colors.length; i++){
+			for(let i = 0; i < cPainting_settings.standart_colors.length; i++){
 			
 			var rect_value_color = document.createElement('div');
 			rect_value_color.style.width = '15px';
@@ -377,8 +377,8 @@ try{
 			rect_value_color.style.border = '1px solid #cccccc';
 			rect_value_color.style.cursor = 'pointer';
 			rect_value_color.style.float = 'left';
-			rect_value_color.style.backgroundColor = settings.standart_colors[i];
-			rect_value_color.setAttribute('onclick', 'change_style(6, "'+settings.standart_colors[i]+'")')
+			rect_value_color.style.backgroundColor = cPainting_settings.standart_colors[i];
+			rect_value_color.setAttribute('onclick', 'change_style(6, "'+cPainting_settings.standart_colors[i]+'")')
 			div_value_color.appendChild(rect_value_color);
 			delete rect_value_color;
 			}
@@ -444,7 +444,7 @@ try{
 		font-size: 15px;\
 		font-family: Arial;\
 		margin: 1px 4px;\
-		color: '+settings.menu.color+';\
+		color: '+cPainting_settings.menu.color+';\
 		cursor:pointer;\
 	}';
 	doc.appendChild(styleSheet);
