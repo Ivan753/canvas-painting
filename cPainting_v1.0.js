@@ -34,6 +34,7 @@
 	cleaner: {                   //cleaner's size
 		width: 50,
 		height: 20,
+		act: false
 	},
 	color: 'rgba(50,50,150,0.9)',//color tool
 	sizeLine: 10,				 //size tool (px)
@@ -68,7 +69,7 @@ try{
 
 	if(doc){
 
-	if(doc.tagName.toLowerCase() != 'div') { throw 'ADIO_Error: uncorrect tagName "'+doc.tagName.toLowerCase()+'". You can using "div" only.' }
+	if(doc.tagName.toLowerCase() != 'div') { throw 'ADIO_Error: incorrect tagName "'+doc.tagName.toLowerCase()+'". You can using "div" only.' }
 		
 	doc.innerHTML = '';
 
@@ -97,8 +98,14 @@ try{
 			elem = elem.offsetParent        
 		}
 
-
-
+	var mini_cleaner = document.createElement('div');
+	mini_cleaner.style.position = 'absolute';
+	mini_cleaner.style.display = 'none';
+	mini_cleaner.style.border = '1px solid #555';
+	mini_cleaner.style.backgroundColor = '#fff';
+	mini_cleaner.style.zIndex = 1000;
+	doc.appendChild(mini_cleaner);
+	
 
 	canvas.onmousedown = function(e){
 		paint = true;
@@ -116,6 +123,10 @@ try{
 		redraw();
 
 		}
+		
+		mini_cleaner.style.left = e.pageX+3;
+		mini_cleaner.style.top = e.pageY+3;
+		
 	};
 
 
@@ -140,6 +151,8 @@ try{
 			clickY = [];
 			clickclickDrag = [];
 		}
+
+		
 	};
 
 
@@ -162,12 +175,20 @@ try{
 	ctx.lineJoin = 'round';
 	ctx.lineCup = 'round';
 	ctx.lineWidth = cPainting_settings.sizeLine;
-
+	
+	if(cPainting_settings.cleaner.act == false){
+		mini_cleaner.style.display=  "none";
+	}
+	
 	function redraw(){
 			
 		switch(cPainting_settings.means){
 		case 'pen':
 
+			cPainting_settings.cleaner.act = false;
+		
+			mini_cleaner.style.display = 'none';
+		
 			for(var i=0; i < clickX.length; i++) {		
 			ctx.beginPath();
 			if(clickDrag[i] && i){
@@ -186,6 +207,10 @@ try{
 
 		case 'pointer':
 
+			cPainting_settings.cleaner.act = false;		
+
+			mini_cleaner.style.display = 'none';
+		
 			ctx.lineJoin = 'round';
 			ctx.lineCup = 'round';
 
@@ -212,6 +237,12 @@ try{
 
 		case 'cleaner':
 			
+			cPainting_settings.cleaner.act = true;
+			
+			mini_cleaner.style.width = cPainting_settings.cleaner.width + 'px';
+			mini_cleaner.style.height = cPainting_settings.cleaner.height + 'px';
+			mini_cleaner.style.display = 'block';
+			
 			ctx.lineJoin = 'none';
 			ctx.lineCup = 'none';
 
@@ -223,7 +254,7 @@ try{
 			ctx.moveTo(clickX[i]-1, clickY[i]);
 			}
 			
-			ctx.clearRect(clickX[i], clickY[i], cPainting_settings.cleaner.width, cPainting_settings.cleaner.height); // Очистим холст	
+			ctx.clearRect(clickX[i], clickY[i], cPainting_settings.cleaner.width+3, cPainting_settings.cleaner.height+3); // Очистим холст	
 			ctx.closePath();
 			ctx.stroke();
 			}
@@ -231,7 +262,7 @@ try{
 
 		break;
 
-		default: throw 'ADIO_Error: uncorrect setting.means .'; break;
+		default: throw 'ADIO_Error: incorrect setting.means .'; break;
 
 		}
 	}
@@ -243,10 +274,14 @@ try{
 			case 2: ctx.strokeStyle = inp_color.value; cPainting_settings.color = inp_color.value; value_color.style.backgroundColor = inp_color.value; break;
 			case 3: cPainting_settings.means = inp_means.value;  break;
 			case 4: cPainting_settings.means = select_mean.value; inp_means.value = select_mean.value;  break;
-			case 'width_cleaner': cPainting_settings.cleaner.width = inp_sett_cleaner_width.value; break;
-			case 'height_cleaner': cPainting_settings.cleaner.height = inp_sett_cleaner_height.value; break;
+			case 'width_cleaner': 
+				cPainting_settings.cleaner.width = inp_sett_cleaner_width.value; 	mini_cleaner.style.width = cPainting_settings.cleaner.width + 'px'; break;
+			case 'height_cleaner': 
+				cPainting_settings.cleaner.height = inp_sett_cleaner_height.value; 
+				mini_cleaner.style.height = cPainting_settings.cleaner.height + 'px';
+				break;
 			case 6: ctx.strokeStyle = arguments[1]; cPainting_settings.color = arguments[1];  break;
-			default: throw 'ADIO_Error: uncorrect argument in "change_style" .'; break;
+			default: throw 'ADIO_Error: incorrect argument in "change_style" .'; break;
 		}
 	});
 
@@ -261,7 +296,7 @@ try{
 		menu.style.border = cPainting_settings.menu.border;
 		menu.style.width = '160px';
 		menu.style.position = cPainting_settings.menu.position;
-		menu.style.backgroundColor = settings.menu.backgroundColor;
+		menu.style.backgroundColor = cPainting_settings.menu.backgroundColor;
 		menu.style.opacity = cPainting_settings.menu.opacity;
 		menu.style.left = cPainting_settings.width + 'px';
 		menu.id = 'ADIO_Menu';
@@ -544,6 +579,7 @@ function cbur(n){
 
 
 });
+
 
 
 
