@@ -1,4 +1,9 @@
 # canvas-painting 
+  <h2>Version 1.5: What's new?</h2>
+In this version, there was a great opportunity to evenly draw <b>rectangles</b> and <b>circles</b> using the <i>capabilities of the module</i>. Also fixed minor flaws. Please note that versions 1.0 and 1.5 are beta versions. If you have any questions, you can contact the e-mail address indicated at the end of the description.
+Below is a description of version 1.0 (a more accurate description will appear with the output of the completed version of the module).
+<br>
+<br>
   cPainting v1.0 is a special module created on your web site for drawing canvas. This module is supported by all PC browsers that support work with <i><canvas></i>.
 <img src="2.png" />
 <hr color="#cccccc" />
