@@ -1,12 +1,12 @@
 /*!
- * cPaiтting JavaScript Modul v1.0
+ * cPaiтting JavaScript Modul v1.5
  *
  * Application for drawing in canvas 
  *
  * developed by Ivan Bugaev
  * mailto: ivan-753s@mail.ru
  * 
- * Date: 2017-11-02 15:50 
+ * Date: 2017-11-24 22:06 
  *
  * documentation   https://github.com/Ivan753/canvas-painting
  */
