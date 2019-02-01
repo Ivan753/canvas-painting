@@ -1,5 +1,5 @@
 /*!
- * cPaiтting JavaScript Modul v1.5
+ * cPainting JavaScript Modul v2.0
  *
  * Application for drawing in canvas 
  *
@@ -23,7 +23,7 @@ var cPainting_settings = {
     bg: '#ffffff',               //background-color
     opacity: 1,                  //
     menu: {                      //control 
-        level: 'pro',            //level control: none, less, pro
+        level: 'less',            //level control: none, less, pro
         position: 'absolute',    //position control
         backgroundColor:'#ffffff',
         opacity: 0.9,
@@ -44,7 +44,7 @@ var cPainting_settings = {
         height: 20,
         act: false
     },
-    color: 'rgba(50,50,150,0.9)',//color tool
+    color: '#000055',//color tool
     sizeLine: 10,                 //size tool (px)
     standart_colors: ['#ff0000', '#00ff00', '#0000ff', '#ffa500', '#a5ff00', '#00a5ff', '#ff00a5', '#000000', '#ffffff'], //standart colors for less level control
     ln: 'en'
@@ -551,8 +551,8 @@ try{
             break;
             
             case 2: 
-                ctx.strokeStyle = inp_color.value; cPainting_settings.color = inp_color.value; value_color.style.backgroundColor = inp_color.value; 
-                tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color;
+                ctx.strokeStyle = color_inp.value; cPainting_settings.color = color_inp.value; value_color.style.backgroundColor = color_inp.value; 
+                tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color;  
             break;
             
             case 3: cPainting_settings.means = inp_means.value;  break;
@@ -590,7 +590,6 @@ try{
         menu.style.backgroundColor = cPainting_settings.menu.backgroundColor;
         menu.style.opacity = cPainting_settings.menu.opacity;
         menu.style.left = cPainting_settings.width + 'px';
-        menu.id = 'ADIO_Menu';
         
         
         var sett_cleaner_div = document.createElement('div');
@@ -646,22 +645,20 @@ try{
 
         
         var inp_size = document.createElement('input');
-        var inp_color = document.createElement('input');
         var inp_means = document.createElement('input');
 
         inp_size.id = 'AIDO_inp_size'; 
-        inp_color.id = 'AIDO_inp_color'; 
         inp_means.id = 'AIDO_inp_means';
         inp_means.setAttribute('type', 'hidden');
         inp_size.className = 'AIDO_inputs'; 
-        inp_color.className = 'AIDO_inputs'; 
         inp_means.className = 'AIDO_inputs';
         inp_size.value = cPainting_settings.sizeLine; 
-        inp_color.value = cPainting_settings.color; 
         inp_means.value = cPainting_settings.means;
         
 
-        
+        var color_inp = document.createElement('input');
+        color_inp.type = "color";
+        color_inp.value = cPainting_settings.color;
 
         
         var div_inp = document.createElement('div');
@@ -681,38 +678,11 @@ try{
         label.setAttribute('for', 'AIDO_inp_color');
         label.innerHTML = TEXT_inp_color;
         div_inp.appendChild(label);
-        (cPainting_settings.menu.level == 'pro')?div_inp.appendChild(inp_color): undefined;
+        div_inp.appendChild(color_inp);
         menu.appendChild(div_inp);
         delete div_inp;
         delete label;
         
-        if(cPainting_settings.menu.level == 'pro'){
-            var value_color = document.createElement('div');
-            value_color.style.width = '150px';
-            value_color.style.height = '20px';
-            value_color.style.margin = '5px';
-            value_color.style.backgroundColor = cPainting_settings.color;
-            menu.appendChild(value_color);
-        }else{
-            var div_value_color = document.createElement('div');
-            
-            for(let i = 0; i < cPainting_settings.standart_colors.length; i++){
-            
-            var rect_value_color = document.createElement('div');
-            rect_value_color.style.width = '15px';
-            rect_value_color.style.height = '15px';
-            rect_value_color.style.margin = '5px';
-            rect_value_color.style.border = '1px solid #cccccc';
-            rect_value_color.style.cursor = 'pointer';
-            rect_value_color.style.float = 'left';
-            rect_value_color.style.backgroundColor = cPainting_settings.standart_colors[i];
-            rect_value_color.setAttribute('onclick', 'change_style(6, "'+cPainting_settings.standart_colors[i]+'")')
-            div_value_color.appendChild(rect_value_color);
-            delete rect_value_color;
-            }
-            div_value_color.innerHTML += '<div style="clear:both"> </div>';
-            menu.appendChild(div_value_color);
-        }
         
         
         
@@ -733,8 +703,13 @@ try{
         menu.appendChild(sett_cleaner_div);
         
         
+        
+
+        
+        
+        
         inp_size.setAttribute('oninput', 'change_style(1)');
-        inp_color.setAttribute('oninput', 'change_style(2)');
+        color_inp.setAttribute('oninput', 'change_style(2)');
         // inp_color.setAttribute('onkeyup', 'change_style(2)');
         inp_means.setAttribute('oninput', 'change_style(3)');
         
@@ -744,7 +719,7 @@ try{
         
         
         doc.appendChild(menu);
-        cbur(menu.id);
+        cbur(menu);
     }
 
     //control's styles
@@ -775,10 +750,9 @@ try{
         color: '+cPainting_settings.menu.color+';\
         cursor:pointer;\
     }';
+    
     doc.appendChild(styleSheet);
-        
-
-
+    
     
 
 }catch(er){
@@ -789,7 +763,7 @@ try{
 
 // drag'n'drop
 
-function cbur(n){
+function cbur(blok){
 
     var ie = 0;
     var op = 0;
@@ -802,12 +776,6 @@ function cbur(n){
         else{
             if(browser.indexOf("Firefox") != -1) ff = 1;
         }
-    }
-    
-    if(document.getElementById){
-        var blok = document.getElementById(n);
-    }else{
-        var blok = document.all[n];  
     }
     
     var delta_x = 0;
