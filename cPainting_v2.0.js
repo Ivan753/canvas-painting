@@ -159,16 +159,17 @@ try{
     mini_cleaner.style.border = '1px solid #555';
     mini_cleaner.style.backgroundColor = '#fff';
     mini_cleaner.style.zIndex = 1000;
+    mini_cleaner.style.pointerEvents = "none";
     doc.appendChild(mini_cleaner);
     
     var tool = document.createElement('div');
     tool.id = "CanvasDrawerADIO_tool";
     tool.down = false;
-    tool.down = false;
     tool.width = '0px';
     tool.height = '0px';
     tool.style.position = 'absolute';
     tool.style.zIndex = 1000;
+    tool.style.pointerEvents = "none";
     doc.appendChild(tool);
     
     
@@ -176,6 +177,7 @@ try{
     // events definition
 
     canvas.onmousedown = function(e){
+        
         paint = true;
 
         if(cPainting_settings.using_tool.rectangle == true && tool.down != true){
