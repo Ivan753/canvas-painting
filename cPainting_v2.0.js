@@ -167,6 +167,8 @@ try{
     tool.down = false;
     tool.width = '0px';
     tool.height = '0px';
+    tool.py_bool = false;   // for forward-backward rendering
+    tool.px_bool = false;   // for forward-backward rendering
     tool.style.position = 'absolute';
     tool.style.zIndex = 1000;
     tool.style.pointerEvents = "none";
@@ -212,8 +214,42 @@ try{
         }
         
         if(cPainting_settings.using_tool.rectangle == true && tool.down == true){
-            tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
-            tool.style.height = Math.abs(e.pageY - parseInt(tool.style.top) - 2*cPainting_settings.sizeLine) - 3;
+            
+            // forward and backward rendering
+            // for moving on the left-right
+            let t = ((tool.px_bool == false)?(parseInt(tool.style.left) + 2*cPainting_settings.sizeLine):(tool.px + 2*cPainting_settings.sizeLine));
+            
+            if(e.pageX > t){    
+                tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
+                tool.px_bool = false;
+            }else{
+                    
+                if(tool.px_bool == false){ 
+                    tool.px = parseInt(tool.style.left);
+                    tool.px_bool = true;
+                }
+                
+                tool.style.width = Math.abs(parseInt(tool.style.left) - tool.px - 2*cPainting_settings.sizeLine) - 3;
+                tool.style.left = Math.abs(e.pageX - 2*cPainting_settings.sizeLine) ;
+            }
+            
+            
+            // for moving on the up-down
+            t = ((tool.py_bool == false)?(parseInt(tool.style.top) + 2*cPainting_settings.sizeLine):(tool.py + 2*cPainting_settings.sizeLine));
+            if(e.pageY > t){    
+                tool.style.height = Math.abs(e.pageY - parseInt(tool.style.top) - 2*cPainting_settings.sizeLine) - 3;
+                tool.py_bool = false;
+            }else{
+                    
+                if(tool.py_bool == false){ 
+                    tool.py = parseInt(tool.style.top);
+                    tool.py_bool = true;
+                }
+                
+                tool.style.height = Math.abs(parseInt(tool.style.top) - tool.py - 2*cPainting_settings.sizeLine) - 3;
+                tool.style.top = Math.abs(e.pageY - 2*cPainting_settings.sizeLine) ;
+            }
+            
             return;
         }
         
@@ -225,8 +261,27 @@ try{
         }
         
         if(cPainting_settings.using_tool.circle == true && tool.down == true){
-            tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
-            tool.style.height =  Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
+            
+            // forward and backward rendering
+            let t = ((tool.px_bool == false)?(parseInt(tool.style.left) + 2*cPainting_settings.sizeLine):(tool.px + 2*cPainting_settings.sizeLine));
+			
+			if(e.pageX > t){	
+				tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
+				tool.style.height =  Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
+				tool.px_bool = false;
+			}else{
+					
+				if(tool.px_bool == false){ 
+					tool.px = parseInt(tool.style.left);
+					tool.py = parseInt(tool.style.top);
+					tool.px_bool = true;
+				}
+				
+				tool.style.width = Math.abs(parseInt(tool.style.left) - tool.px - 2*cPainting_settings.sizeLine) - 3;
+				tool.style.left = Math.abs(e.pageX - 2*cPainting_settings.sizeLine) ;
+				tool.style.height = Math.abs(parseInt(tool.style.left) - tool.px - 2*cPainting_settings.sizeLine) - 3;
+			}
+            
             return;
         }
         
