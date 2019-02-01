@@ -145,12 +145,12 @@ try{
     // summ all margins
     var elem = canvas;
         
-    var top=0, left=0;
-        
-    while(elem) {
-        top = top + parseFloat(elem.offsetTop)
-        left = left + parseFloat(elem.offsetLeft)
-        elem = elem.offsetParent        
+    var top = 1, left = 1;
+    
+    while(elem){
+        top = top + parseFloat(elem.offsetTop + parseInt(getComputedStyle(elem).paddingTop));
+        left = left + parseFloat(elem.offsetLeft + parseInt(getComputedStyle(elem).paddingLeft));
+        elem = elem.offsetParent;
     }
 
     var mini_cleaner = document.createElement('div');
@@ -180,19 +180,18 @@ try{
         
         paint = true;
 
-        if(cPainting_settings.using_tool.rectangle == true && tool.down != true){
-            tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - parseInt(tool.style.width);
-            tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - parseInt(tool.style.height);
+        if(cPainting_settings.using_tool.rectangle == true && tool.down == false){
+            tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
+            tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - 3;
             tool.down = true;
             return;
         }else{
-            if(cPainting_settings.using_tool.circle == true && tool.down != true){
-            tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - parseInt(tool.style.width);
-            tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - parseInt(tool.style.height);
-            tool.down = true;
-            return;
+            if(cPainting_settings.using_tool.circle == true && tool.down == false){
+                tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
+                tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - 3;
+                tool.down = true;
+                return;
             }else{
-
                 addClick(e.pageX - left, e.pageY - top);
                 redraw();
             }
@@ -248,17 +247,19 @@ try{
     canvas.onmouseup = function(e){
         paint = false;
 
-        if(cPainting_settings.using_tool.rectangle == true && tool.down != false){
+        if(cPainting_settings.using_tool.rectangle == true && tool.down == true){
+            
             tool.down = false;
             
-                ctx.strokeStyle = cPainting_settings.color;
-                ctx.lineJoin = 'round';
-                ctx.lineCup = 'none';
-                ctx.lineWidth = cPainting_settings.sizeLine;
-                ctx.beginPath();
-                ctx.rect(parseInt(tool.style.left) - left, parseInt(tool.style.top) - top, parseInt(tool.style.width) + cPainting_settings.sizeLine/2, parseInt(tool.style.height) + cPainting_settings.sizeLine/2);
-                ctx.closePath();
-                ctx.stroke();
+            console.log(tool.style.left+":"+left+" "+tool.style.top+":"+top);
+            ctx.strokeStyle = cPainting_settings.color;
+            ctx.lineJoin = 'round';
+            ctx.lineCup = 'none';
+            ctx.lineWidth = cPainting_settings.sizeLine;
+            ctx.beginPath();
+            ctx.rect(parseInt(tool.style.left) - left + cPainting_settings.sizeLine/2, parseInt(tool.style.top) - top + cPainting_settings.sizeLine/2, parseInt(tool.style.width) + cPainting_settings.sizeLine, parseInt(tool.style.height) + cPainting_settings.sizeLine);
+            ctx.closePath();
+            ctx.stroke();
             
             cPainting_settings.using_tool.rectangle = false;
             tool.style.width = "0px";
@@ -273,17 +274,17 @@ try{
         
         
         
-        if(cPainting_settings.using_tool.circle == true && tool.down != false){
+        if(cPainting_settings.using_tool.circle == true && tool.down == true){
             tool.down = false;
             
-                ctx.strokeStyle = cPainting_settings.color;
-                ctx.lineJoin = 'round';
-                ctx.lineCup = 'none';
-                ctx.lineWidth = cPainting_settings.sizeLine;
-                ctx.beginPath();
-                ctx.arc(parseInt(tool.style.left)+parseInt(tool.style.width)/2 - left, parseInt(tool.style.top)+parseInt(tool.style.width)/2 - top, parseInt(tool.style.width)/2 + cPainting_settings.sizeLine/2, 0, 2*Math.PI, true);
-                ctx.closePath();
-                ctx.stroke();
+            ctx.strokeStyle = cPainting_settings.color;
+            ctx.lineJoin = 'round';
+            ctx.lineCup = 'none';
+            ctx.lineWidth = cPainting_settings.sizeLine;
+            ctx.beginPath();
+            ctx.arc(parseInt(tool.style.left) - left + cPainting_settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.top) - top + cPainting_settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.width)/2 + cPainting_settings.sizeLine/2, 0, 2*Math.PI, true);
+            ctx.closePath();
+            ctx.stroke();
             
             cPainting_settings.using_tool.circle = false;
             tool.style.width = "0px";
