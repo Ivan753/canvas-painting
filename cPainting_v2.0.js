@@ -201,7 +201,9 @@ try{
     };
 
 
-    canvas.onmousemove = function(e){    
+    canvas.onmousemove = function(e){
+
+        // draw act and no act tools
 
         if(cPainting_settings.using_tool.rectangle == true && tool.down == false){
             tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
@@ -215,9 +217,7 @@ try{
             return;
         }
         
-        
-        
-        
+
         if(cPainting_settings.using_tool.circle == true && tool.down == false){
             tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
             tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - 3;
@@ -245,13 +245,15 @@ try{
 
 
     canvas.onmouseup = function(e){
+        
         paint = false;
-
+        
+        // draw rectangle
+        
         if(cPainting_settings.using_tool.rectangle == true && tool.down == true){
             
             tool.down = false;
-            
-            console.log(tool.style.left+":"+left+" "+tool.style.top+":"+top);
+
             ctx.strokeStyle = cPainting_settings.color;
             ctx.lineJoin = 'round';
             ctx.lineCup = 'none';
@@ -273,6 +275,7 @@ try{
         
         
         
+        // draw circle
         
         if(cPainting_settings.using_tool.circle == true && tool.down == true){
             tool.down = false;
@@ -301,8 +304,6 @@ try{
             clickY = [];
             clickclickDrag = [];
         }
-        
-
         
         
     };
