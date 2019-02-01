@@ -543,7 +543,7 @@ try{
 
     
     
-    change_style = (function(n){
+    var change_style = (function(n){
         switch(n){
             case 1: 
                 ctx.lineWidth = inp_size.value; cPainting_settings.sizeLine = inp_size.value; 
@@ -551,7 +551,7 @@ try{
             break;
             
             case 2: 
-                ctx.strokeStyle = color_inp.value; cPainting_settings.color = color_inp.value; value_color.style.backgroundColor = color_inp.value; 
+                ctx.strokeStyle = color_inp.value; cPainting_settings.color = color_inp.value;
                 tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color;  
             break;
             
@@ -639,7 +639,7 @@ try{
         <option value = "circle">'+TEXT_circle+'</option>\
         <option value = "cleaner">'+TEXT_cleaner+'</option>\
         ';
-        select_mean.setAttribute('onchange', 'change_style(4)');
+        select_mean.onchange = function(){ change_style(4) };
         select_mean.className = 'AIDO_inputs';
         
 
@@ -708,13 +708,13 @@ try{
         
         
         
-        inp_size.setAttribute('oninput', 'change_style(1)');
-        color_inp.setAttribute('oninput', 'change_style(2)');
+        inp_size.oninput = function(){ change_style(1) };
+        color_inp.oninput = function(){ change_style(2) };
         // inp_color.setAttribute('onkeyup', 'change_style(2)');
-        inp_means.setAttribute('oninput', 'change_style(3)');
+        inp_means.oninput = function(){ change_style(3) };
         
-        inp_sett_cleaner_width.setAttribute('oninput', 'change_style("width_cleaner")');
-        inp_sett_cleaner_height.setAttribute('oninput', 'change_style("height_cleaner")');
+        inp_sett_cleaner_width.oninput = function(){ change_style("width_cleaner") };
+        inp_sett_cleaner_height.oninput = function(){ change_style("height_cleaner") };
 
         
         
