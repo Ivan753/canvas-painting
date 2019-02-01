@@ -15,8 +15,8 @@
  
 (function(){
 
-// object cPainting_settings
-var cPainting_settings = {
+// object Settings
+var Settings = {
         
     width: 500,                  //width canvas
     height: 500,                 //height
@@ -54,7 +54,7 @@ var cPainting_settings = {
 
 // language settings, default:ru
 
-switch(cPainting_settings.ln){
+switch(Settings.ln){
     
     case 'en':    
         var TEXT_inp_size = 'size (px)',
@@ -110,7 +110,8 @@ startCreateDesigner = (function(){
 // try-catch for to shorten the code
 
 try{
-
+    
+    // create canvas
     var doc;
 
     if (document.getElementById) doc = document.getElementById('CanvasDrawerADIO');
@@ -130,11 +131,11 @@ try{
 
     var canvas = document.createElement('canvas');
 
-    canvas.setAttribute('width', cPainting_settings.width + 'px');
-    canvas.setAttribute('height', cPainting_settings.height + 'px');
+    canvas.setAttribute('width', Settings.width + 'px');
+    canvas.setAttribute('height', Settings.height + 'px');
 
     canvas.style.position = 'absolute';
-    canvas.style.backgroundColor = cPainting_settings.bg;
+    canvas.style.backgroundColor = Settings.bg;
     canvas.style.border = '1px solid #000';
     canvas.id = 'CanvasDrawerADIO1';
     doc.appendChild(canvas);
@@ -153,6 +154,7 @@ try{
         elem = elem.offsetParent;
     }
 
+    // create cleaner
     var mini_cleaner = document.createElement('div');
     mini_cleaner.style.position = 'absolute';
     mini_cleaner.style.display = 'none';
@@ -162,6 +164,7 @@ try{
     mini_cleaner.style.pointerEvents = "none";
     doc.appendChild(mini_cleaner);
     
+    // create block for tool
     var tool = document.createElement('div');
     tool.id = "CanvasDrawerADIO_tool";
     tool.down = false;
@@ -171,6 +174,7 @@ try{
     tool.px_bool = false;   // for forward-backward rendering
     tool.style.position = 'absolute';
     tool.style.zIndex = 1000;
+    tool.style.display = "none";
     tool.style.pointerEvents = "none";
     doc.appendChild(tool);
     
@@ -182,15 +186,15 @@ try{
         
         paint = true;
 
-        if(cPainting_settings.using_tool.rectangle == true && tool.down == false){
-            tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
-            tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - 3;
+        if(Settings.using_tool.rectangle == true && tool.down == false){
+            tool.style.left = e.pageX - 2*Settings.sizeLine - 3;
+            tool.style.top = e.pageY - 2*Settings.sizeLine - 3;
             tool.down = true;
             return;
         }else{
-            if(cPainting_settings.using_tool.circle == true && tool.down == false){
-                tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
-                tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - 3;
+            if(Settings.using_tool.circle == true && tool.down == false){
+                tool.style.left = e.pageX - 2*Settings.sizeLine - 3;
+                tool.style.top = e.pageY - 2*Settings.sizeLine - 3;
                 tool.down = true;
                 return;
             }else{
@@ -207,20 +211,20 @@ try{
 
         // draw act and no act tools
 
-        if(cPainting_settings.using_tool.rectangle == true && tool.down == false){
-            tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
-            tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - 3;
+        if(Settings.using_tool.rectangle == true && tool.down == false){
+            tool.style.left = e.pageX - 2*Settings.sizeLine - 3;
+            tool.style.top = e.pageY - 2*Settings.sizeLine - 3;
             return;
         }
         
-        if(cPainting_settings.using_tool.rectangle == true && tool.down == true){
+        if(Settings.using_tool.rectangle == true && tool.down == true){
             
             // forward and backward rendering
             // for moving on the left-right
-            let t = ((tool.px_bool == false)?(parseInt(tool.style.left) + 2*cPainting_settings.sizeLine):(tool.px + 2*cPainting_settings.sizeLine));
+            let t = ((tool.px_bool == false)?(parseInt(tool.style.left) + 2*Settings.sizeLine):(tool.px + 2*Settings.sizeLine));
             
             if(e.pageX > t){    
-                tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
+                tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*Settings.sizeLine) - 3;
                 tool.px_bool = false;
             }else{
                     
@@ -229,15 +233,15 @@ try{
                     tool.px_bool = true;
                 }
                 
-                tool.style.width = Math.abs(parseInt(tool.style.left) - tool.px - 2*cPainting_settings.sizeLine) - 3;
-                tool.style.left = Math.abs(e.pageX - 2*cPainting_settings.sizeLine) ;
+                tool.style.width = Math.abs(parseInt(tool.style.left) - tool.px - 2*Settings.sizeLine) - 3;
+                tool.style.left = Math.abs(e.pageX - 2*Settings.sizeLine) ;
             }
             
             
             // for moving on the up-down
-            t = ((tool.py_bool == false)?(parseInt(tool.style.top) + 2*cPainting_settings.sizeLine):(tool.py + 2*cPainting_settings.sizeLine));
+            t = ((tool.py_bool == false)?(parseInt(tool.style.top) + 2*Settings.sizeLine):(tool.py + 2*Settings.sizeLine));
             if(e.pageY > t){    
-                tool.style.height = Math.abs(e.pageY - parseInt(tool.style.top) - 2*cPainting_settings.sizeLine) - 3;
+                tool.style.height = Math.abs(e.pageY - parseInt(tool.style.top) - 2*Settings.sizeLine) - 3;
                 tool.py_bool = false;
             }else{
                     
@@ -246,28 +250,28 @@ try{
                     tool.py_bool = true;
                 }
                 
-                tool.style.height = Math.abs(parseInt(tool.style.top) - tool.py - 2*cPainting_settings.sizeLine) - 3;
-                tool.style.top = Math.abs(e.pageY - 2*cPainting_settings.sizeLine) ;
+                tool.style.height = Math.abs(parseInt(tool.style.top) - tool.py - 2*Settings.sizeLine) - 3;
+                tool.style.top = Math.abs(e.pageY - 2*Settings.sizeLine) ;
             }
             
             return;
         }
         
 
-        if(cPainting_settings.using_tool.circle == true && tool.down == false){
-            tool.style.left = e.pageX - 2*cPainting_settings.sizeLine - 3;
-            tool.style.top = e.pageY - 2*cPainting_settings.sizeLine - 3;
+        if(Settings.using_tool.circle == true && tool.down == false){
+            tool.style.left = e.pageX - 2*Settings.sizeLine - 3;
+            tool.style.top = e.pageY - 2*Settings.sizeLine - 3;
             return;
         }
         
-        if(cPainting_settings.using_tool.circle == true && tool.down == true){
+        if(Settings.using_tool.circle == true && tool.down == true){
             
             // forward and backward rendering
-            let t = ((tool.px_bool == false)?(parseInt(tool.style.left) + 2*cPainting_settings.sizeLine):(tool.px + 2*cPainting_settings.sizeLine));
+            let t = ((tool.px_bool == false)?(parseInt(tool.style.left) + 2*Settings.sizeLine):(tool.px + 2*Settings.sizeLine));
 			
 			if(e.pageX > t){	
-				tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
-				tool.style.height =  Math.abs(e.pageX - parseInt(tool.style.left) - 2*cPainting_settings.sizeLine) - 3;
+				tool.style.width = Math.abs(e.pageX - parseInt(tool.style.left) - 2*Settings.sizeLine) - 3;
+				tool.style.height =  Math.abs(e.pageX - parseInt(tool.style.left) - 2*Settings.sizeLine) - 3;
 				tool.px_bool = false;
 			}else{
 					
@@ -277,9 +281,9 @@ try{
 					tool.px_bool = true;
 				}
 				
-				tool.style.width = Math.abs(parseInt(tool.style.left) - tool.px - 2*cPainting_settings.sizeLine) - 3;
-				tool.style.left = Math.abs(e.pageX - 2*cPainting_settings.sizeLine) ;
-				tool.style.height = Math.abs(parseInt(tool.style.left) - tool.px - 2*cPainting_settings.sizeLine) - 3;
+				tool.style.width = Math.abs(parseInt(tool.style.left) - tool.px - 2*Settings.sizeLine) - 3;
+				tool.style.left = Math.abs(e.pageX - 2*Settings.sizeLine) ;
+				tool.style.height = Math.abs(parseInt(tool.style.left) - tool.px - 2*Settings.sizeLine) - 3;
 			}
             
             return;
@@ -305,20 +309,20 @@ try{
         
         // draw rectangle
         
-        if(cPainting_settings.using_tool.rectangle == true && tool.down == true){
+        if(Settings.using_tool.rectangle == true && tool.down == true){
             
             tool.down = false;
 
-            ctx.strokeStyle = cPainting_settings.color;
+            ctx.strokeStyle = Settings.color;
             ctx.lineJoin = 'round';
             ctx.lineCup = 'none';
-            ctx.lineWidth = cPainting_settings.sizeLine;
+            ctx.lineWidth = Settings.sizeLine;
             ctx.beginPath();
-            ctx.rect(parseInt(tool.style.left) - left + cPainting_settings.sizeLine/2, parseInt(tool.style.top) - top + cPainting_settings.sizeLine/2, parseInt(tool.style.width) + cPainting_settings.sizeLine, parseInt(tool.style.height) + cPainting_settings.sizeLine);
+            ctx.rect(parseInt(tool.style.left) - left + Settings.sizeLine/2, parseInt(tool.style.top) - top + Settings.sizeLine/2, parseInt(tool.style.width) + Settings.sizeLine, parseInt(tool.style.height) + Settings.sizeLine);
             ctx.closePath();
             ctx.stroke();
             
-            cPainting_settings.using_tool.rectangle = false;
+            Settings.using_tool.rectangle = false;
             tool.style.width = "0px";
             tool.style.height = "0px";
             tool.style.display = "none";
@@ -332,19 +336,19 @@ try{
         
         // draw circle
         
-        if(cPainting_settings.using_tool.circle == true && tool.down == true){
+        if(Settings.using_tool.circle == true && tool.down == true){
             tool.down = false;
             
-            ctx.strokeStyle = cPainting_settings.color;
+            ctx.strokeStyle = Settings.color;
             ctx.lineJoin = 'round';
             ctx.lineCup = 'none';
-            ctx.lineWidth = cPainting_settings.sizeLine;
+            ctx.lineWidth = Settings.sizeLine;
             ctx.beginPath();
-            ctx.arc(parseInt(tool.style.left) - left + cPainting_settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.top) - top + cPainting_settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.width)/2 + cPainting_settings.sizeLine/2, 0, 2*Math.PI, true);
+            ctx.arc(parseInt(tool.style.left) - left + Settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.top) - top + Settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.width)/2 + Settings.sizeLine/2, 0, 2*Math.PI, true);
             ctx.closePath();
             ctx.stroke();
             
-            cPainting_settings.using_tool.circle = false;
+            Settings.using_tool.circle = false;
             tool.style.width = "0px";
             tool.style.height = "0px";
             tool.style.display = "none";
@@ -354,7 +358,7 @@ try{
             return;
         }
 
-        if((cPainting_settings.means == 'pen') || (cPainting_settings.means == 'cleaner')){ //
+        if((Settings.means == 'pen') || (Settings.means == 'cleaner')){ //
             clickX = [];
             clickY = [];
             clickclickDrag = [];
@@ -368,16 +372,16 @@ try{
     canvas.onmouseleave = function(e){
         paint = false;
 
-        if(cPainting_settings.using_tool.rectangle == true && tool.down != false){
+        if(Settings.using_tool.rectangle == true && tool.down != false){
             tool.down = false;
             return;
         }
-        if(cPainting_settings.using_tool.circle == true && tool.down != false){
+        if(Settings.using_tool.circle == true && tool.down != false){
             tool.down = false;
             return;
         }
         
-        if((cPainting_settings.means == 'pen') || (cPainting_settings.means == 'cleaner')){ //clear x y
+        if((Settings.means == 'pen') || (Settings.means == 'cleaner')){ //clear x y
             clickX = [];
             clickY = [];
             clickclickDrag = [];
@@ -406,12 +410,12 @@ try{
 
     // default params
     
-    ctx.strokeStyle = cPainting_settings.color;
+    ctx.strokeStyle = Settings.color;
     ctx.lineJoin = 'round';
     ctx.lineCup = 'round';
-    ctx.lineWidth = cPainting_settings.sizeLine;
+    ctx.lineWidth = Settings.sizeLine;
     
-    if(cPainting_settings.cleaner.act == false){
+    if(Settings.cleaner.act == false){
         mini_cleaner.style.display=  "none";
     }
     
@@ -421,12 +425,12 @@ try{
     
     function redraw(){
             
-        switch(cPainting_settings.means){
+        switch(Settings.means){
         case 'pen':
 
-            cPainting_settings.using_tool.rectangle = false;
+            Settings.using_tool.rectangle = false;
 
-            cPainting_settings.cleaner.act = false;
+            Settings.cleaner.act = false;
         
             mini_cleaner.style.display = 'none';
         
@@ -448,9 +452,9 @@ try{
 
         case 'pointer':
             
-            cPainting_settings.using_tool.rectangle = false;
+            Settings.using_tool.rectangle = false;
             
-            cPainting_settings.cleaner.act = false;        
+            Settings.cleaner.act = false;        
 
             mini_cleaner.style.display = 'none';
         
@@ -481,11 +485,11 @@ try{
         
         case 'rectangle':
         
-        if(cPainting_settings.using_tool.rectangle != true) {
-            cPainting_settings.using_tool.rectangle = true;
+        if(Settings.using_tool.rectangle != true) {
+            Settings.using_tool.rectangle = true;
         }
         
-        tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color;
+        tool.style.border = Settings.sizeLine+'px'+' solid '+Settings.color;
         tool.style.borderRadius = '5px';
         tool.style.display = 'block';
         
@@ -496,11 +500,11 @@ try{
         
         case 'circle':
 
-        if(cPainting_settings.using_tool.circle != true) {
-            cPainting_settings.using_tool.circle = true;
+        if(Settings.using_tool.circle != true) {
+            Settings.using_tool.circle = true;
         }
         
-        tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color;
+        tool.style.border = Settings.sizeLine+'px'+' solid '+Settings.color;
         tool.style.borderRadius = '100%';
         tool.style.display = 'block';        
     
@@ -510,10 +514,10 @@ try{
         
         case 'cleaner':
             
-            cPainting_settings.cleaner.act = true;
+            Settings.cleaner.act = true;
             
-            mini_cleaner.style.width = cPainting_settings.cleaner.width + 'px';
-            mini_cleaner.style.height = cPainting_settings.cleaner.height + 'px';
+            mini_cleaner.style.width = Settings.cleaner.width + 'px';
+            mini_cleaner.style.height = Settings.cleaner.height + 'px';
             mini_cleaner.style.display = 'block';
             
             ctx.lineJoin = 'none';
@@ -546,31 +550,31 @@ try{
     var change_style = (function(n){
         switch(n){
             case 1: 
-                ctx.lineWidth = inp_size.value; cPainting_settings.sizeLine = inp_size.value; 
-                tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color; 
+                ctx.lineWidth = inp_size.value; Settings.sizeLine = inp_size.value; 
+                tool.style.border = Settings.sizeLine+'px'+' solid '+Settings.color; 
             break;
             
             case 2: 
-                ctx.strokeStyle = color_inp.value; cPainting_settings.color = color_inp.value;
-                tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color;  
+                ctx.strokeStyle = color_inp.value; Settings.color = color_inp.value;
+                tool.style.border = Settings.sizeLine+'px'+' solid '+Settings.color;  
             break;
             
-            case 3: cPainting_settings.means = inp_means.value;  break;
-            case 4: sweeping(); cPainting_settings.means = select_mean.value; inp_means.value = select_mean.value; redraw(); break;
+            case 3: Settings.means = inp_means.value;  break;
+            case 4: sweeping(); Settings.means = select_mean.value; inp_means.value = select_mean.value; redraw(); break;
             case 'width_cleaner': 
-                cPainting_settings.cleaner.width = inp_sett_cleaner_width.value;     mini_cleaner.style.width = cPainting_settings.cleaner.width + 'px'; break;
+                Settings.cleaner.width = inp_sett_cleaner_width.value;     mini_cleaner.style.width = Settings.cleaner.width + 'px'; break;
             case 'height_cleaner': 
-                cPainting_settings.cleaner.height = inp_sett_cleaner_height.value; 
-                mini_cleaner.style.height = cPainting_settings.cleaner.height + 'px';
+                Settings.cleaner.height = inp_sett_cleaner_height.value; 
+                mini_cleaner.style.height = Settings.cleaner.height + 'px';
                 break;
-            case 6: ctx.strokeStyle = arguments[1]; cPainting_settings.color = arguments[1];  break;
+            case 6: ctx.strokeStyle = arguments[1]; Settings.color = arguments[1];  break;
             default: throw 'ADIO_Error: incorrect argument in "change_style" .'; break;
         }
         
     });
     
     function sweeping(){
-        tool.style.border = cPainting_settings.sizeLine+'px'+' solid '+cPainting_settings.color;
+        tool.style.border = Settings.sizeLine+'px'+' solid '+Settings.color;
         tool.style.display = "none";
         mini_cleaner.style.display = "none";
     }
@@ -579,17 +583,17 @@ try{
 
 
     // ! create control
-    if(cPainting_settings.menu.level !== 'none'){
+    if(Settings.menu.level !== 'none'){
             
         var menu = document.createElement('div');
 
         menu.style.padding = '5px';
-        menu.style.border = cPainting_settings.menu.border;
+        menu.style.border = Settings.menu.border;
         menu.style.width = '160px';
-        menu.style.position = cPainting_settings.menu.position;
-        menu.style.backgroundColor = cPainting_settings.menu.backgroundColor;
-        menu.style.opacity = cPainting_settings.menu.opacity;
-        menu.style.left = cPainting_settings.width + 'px';
+        menu.style.position = Settings.menu.position;
+        menu.style.backgroundColor = Settings.menu.backgroundColor;
+        menu.style.opacity = Settings.menu.opacity;
+        menu.style.left = Settings.width + 'px';
         
         
         var sett_cleaner_div = document.createElement('div');
@@ -600,8 +604,8 @@ try{
         inp_sett_cleaner_height.className = 'AIDO_inputs';
         inp_sett_cleaner_width.id = 'inp_sett_cleaner_width';
         inp_sett_cleaner_height.id = 'inp_sett_cleaner_height';
-        inp_sett_cleaner_width.value = cPainting_settings.cleaner.width;
-        inp_sett_cleaner_height.value = cPainting_settings.cleaner.height;
+        inp_sett_cleaner_width.value = Settings.cleaner.width;
+        inp_sett_cleaner_height.value = Settings.cleaner.height;
         var label = document.createElement('label');
         label.className = 'AIDO_labels';
         label.setAttribute('for', 'AIDO_setting_cleaner');
@@ -652,13 +656,13 @@ try{
         inp_means.setAttribute('type', 'hidden');
         inp_size.className = 'AIDO_inputs'; 
         inp_means.className = 'AIDO_inputs';
-        inp_size.value = cPainting_settings.sizeLine; 
-        inp_means.value = cPainting_settings.means;
+        inp_size.value = Settings.sizeLine; 
+        inp_means.value = Settings.means;
         
 
         var color_inp = document.createElement('input');
         color_inp.type = "color";
-        color_inp.value = cPainting_settings.color;
+        color_inp.value = Settings.color;
 
         
         var div_inp = document.createElement('div');
@@ -683,10 +687,6 @@ try{
         delete div_inp;
         delete label;
         
-        
-        
-        
-        
         var div_inp = document.createElement('div');
         var label = document.createElement('label');
         label.className = 'AIDO_labels';
@@ -699,18 +699,10 @@ try{
         delete div_inp;
         delete label;
         
-        
         menu.appendChild(sett_cleaner_div);
-        
-        
-        
-
-        
-        
         
         inp_size.oninput = function(){ change_style(1) };
         color_inp.oninput = function(){ change_style(2) };
-        // inp_color.setAttribute('onkeyup', 'change_style(2)');
         inp_means.oninput = function(){ change_style(3) };
         
         inp_sett_cleaner_width.oninput = function(){ change_style("width_cleaner") };
@@ -747,7 +739,7 @@ try{
         font-size: 15px;\
         font-family: Arial;\
         margin: 1px 4px;\
-        color: '+cPainting_settings.menu.color+';\
+        color: '+Settings.menu.color+';\
         cursor:pointer;\
     }';
     
@@ -840,8 +832,6 @@ function cbur(blok){
     }
 
 }
-
-
 
 
 });
