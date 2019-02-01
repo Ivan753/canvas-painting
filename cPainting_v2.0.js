@@ -15,8 +15,8 @@
  
 (function(){
 
-// singleton  cPainting_settings
-cPainting_settings = {
+// object cPainting_settings
+var cPainting_settings = {
         
     width: 500,                  //width canvas
     height: 500,                 //height
@@ -107,6 +107,8 @@ switch(cPainting_settings.ln){
 
 startCreateDesigner = (function(){
 
+// try-catch for to shorten the code
+
 try{
 
     var doc;
@@ -115,9 +117,14 @@ try{
     else if (document.all) doc = document.all['CanvasDrawerADIO'];
 
 
-    if(doc){
-
-    if(doc.tagName.toLowerCase() != 'div') { throw 'ADIO_Error: incorrect tagName "'+doc.tagName.toLowerCase()+'". You can using "div" only.' }
+    if(!doc){
+        throw 'ADIO_Error: Element CanvasDrawerADIO not found.';
+    }
+    
+    
+    if(doc.tagName.toLowerCase() != 'div'){ 
+        throw 'ADIO_Error: incorrect tagName "'+doc.tagName.toLowerCase()+'". You can using "div" only.';
+    }
         
     doc.innerHTML = '';
 
@@ -713,9 +720,7 @@ try{
         
 
 
-    }else{
-        throw 'ADIO_Error: Element CanvasDrawerADIO not found.';
-    }
+    
 
 }catch(er){
     console.log(er);    
