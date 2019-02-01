@@ -6,7 +6,7 @@
  * developed by Ivan Bugaev
  * mailto: ivan-753s@mail.ru
  * 
- * Date: 2017-11-24 22:06 
+ * Date: 2017-11-24 22:06
  *
  * documentation   https://github.com/Ivan753/canvas-painting
  */
