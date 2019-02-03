@@ -215,6 +215,7 @@ try{
     };
 
 
+    
     canvas.onmousemove = function(e){
 
         // draw act and no act tools
@@ -296,9 +297,7 @@ try{
             
             return;
         }
-        
-        
-
+ 
         if(paint){
             addClick(e.pageX - left, e.pageY - top, true);
             redraw();
@@ -309,8 +308,8 @@ try{
         
     };
 
-
-
+    
+    
     canvas.onmouseup = function(e){
         
         paint = false;
@@ -341,7 +340,6 @@ try{
             clickclickDrag = [];
             return;
         }
-        
         
         
         // draw circle
@@ -375,8 +373,7 @@ try{
             clickY = [];
             clickclickDrag = [];
         }
-        
-        
+       
     };
 
 
@@ -398,10 +395,7 @@ try{
             clickY = [];
             clickclickDrag = [];
         }
-        
-
-
-        
+     
     };
 
 
