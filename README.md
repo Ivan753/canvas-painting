@@ -1,7 +1,6 @@
 <h1>cPainting</h1>
 <p>JavaScript module for drawing in the browser<p>
 
-<hr color="#cccccc" />
 <h2>How to connect?</h2></br>
 To connect, you need to connect it to the <i>script</i> tag, create an element <i>&lt;div id ="CanvasDrawerADIO"&gt; &lt;/div&gt;</i> on the page and call the <i>startCreateDesigner()</i> function (see <i>index.html</i>).
 Note that this function is called by default after the module is loaded. All the settings that are implemented at the moment, you can find at the beginning of the module - object <i>cPainting_settings</i>.<br>
