@@ -45,6 +45,8 @@ var Settings = {
         act: false
     },
     color: '#000055',//color tool
+    fill_color: '#000055',//color to fill
+    fill: false,
     sizeLine: 10,                 //size tool (px)
     standart_colors: ['#ff0000', '#00ff00', '#0000ff', '#ffa500', '#a5ff00', '#00a5ff', '#ff00a5', '#000000', '#ffffff'], //standart colors for less level control
     ln: 'en'
@@ -59,6 +61,8 @@ switch(Settings.ln){
     case 'en':    
         var TEXT_inp_size = 'size (px)',
         TEXT_inp_color = 'color',
+        TEXT_fill_inp_color = 'fill color',
+        TEXT_change_fill = 'fill',
         TEXT_inp_means = 'tools',
         TEXT_pen = 'pen',
         TEXT_pointer = 'pointer',
@@ -73,7 +77,9 @@ switch(Settings.ln){
 
     case 'ru':
         var TEXT_inp_size = 'размер (px)',
-        TEXT_inp_color = 'цвет',
+        TEXT_inp_color = 'цвет кисти',
+        TEXT_fill_inp_color = 'цвет заливки',
+        TEXT_change_fill = 'заливка',
         TEXT_inp_means = 'инструменты',
         TEXT_pen = 'ручка',
         TEXT_pointer = 'точечное рисование',
@@ -89,6 +95,8 @@ switch(Settings.ln){
     default: 
         var TEXT_inp_size = 'size (px)',
         TEXT_inp_color = 'color',
+        TEXT_fill_inp_color = 'fill color',
+        TEXT_change_fill = 'fill',
         TEXT_inp_means = 'tools',
         TEXT_pen = 'pen',
         TEXT_pointer = 'pointer',
@@ -314,12 +322,14 @@ try{
             tool.down = false;
 
             ctx.strokeStyle = Settings.color;
+            ctx.fillStyle = Settings.fill_color;
             ctx.lineJoin = 'round';
             ctx.lineCup = 'none';
             ctx.lineWidth = Settings.sizeLine;
             ctx.beginPath();
             ctx.rect(parseInt(tool.style.left) - left + Settings.sizeLine/2, parseInt(tool.style.top) - top + Settings.sizeLine/2, parseInt(tool.style.width) + Settings.sizeLine, parseInt(tool.style.height) + Settings.sizeLine);
             ctx.closePath();
+            if(Settings.fill) ctx.fill();
             ctx.stroke();
             
             Settings.using_tool.rectangle = false;
@@ -340,12 +350,14 @@ try{
             tool.down = false;
             
             ctx.strokeStyle = Settings.color;
+            ctx.fillStyle = Settings.fill_color;
             ctx.lineJoin = 'round';
             ctx.lineCup = 'none';
             ctx.lineWidth = Settings.sizeLine;
             ctx.beginPath();
             ctx.arc(parseInt(tool.style.left) - left + Settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.top) - top + Settings.sizeLine + parseInt(tool.style.width)/2, parseInt(tool.style.width)/2 + Settings.sizeLine/2, 0, 2*Math.PI, true);
             ctx.closePath();
+            if(Settings.fill) ctx.fill();
             ctx.stroke();
             
             Settings.using_tool.circle = false;
@@ -410,6 +422,7 @@ try{
 
     // default params
     
+    ctx.fillStyle = Settings.fill_color;
     ctx.strokeStyle = Settings.color;
     ctx.lineJoin = 'round';
     ctx.lineCup = 'round';
@@ -553,12 +566,10 @@ try{
                 ctx.lineWidth = inp_size.value; Settings.sizeLine = inp_size.value; 
                 tool.style.border = Settings.sizeLine+'px'+' solid '+Settings.color; 
             break;
-            
             case 2: 
                 ctx.strokeStyle = color_inp.value; Settings.color = color_inp.value;
                 tool.style.border = Settings.sizeLine+'px'+' solid '+Settings.color;  
             break;
-            
             case 3: Settings.means = inp_means.value;  break;
             case 4: sweeping(); Settings.means = select_mean.value; inp_means.value = select_mean.value; redraw(); break;
             case 'width_cleaner': 
@@ -568,6 +579,19 @@ try{
                 mini_cleaner.style.height = Settings.cleaner.height + 'px';
                 break;
             case 6: ctx.strokeStyle = arguments[1]; Settings.color = arguments[1];  break;
+            case 7: 
+                ctx.fillStyle = fill_color_inp.value; 
+                Settings.fill_color = fill_color_inp.value;
+                change_style(8);
+            break;
+            case 8:
+                if(change_fill.checked){
+                    tool.style.backgroundColor = Settings.fill_color;
+                }else{
+                    tool.style.backgroundColor = "initial";
+                }
+                Settings.fill = change_fill.checked;
+            break;
             default: throw 'ADIO_Error: incorrect argument in "change_style" .'; break;
         }
         
@@ -663,7 +687,11 @@ try{
         var color_inp = document.createElement('input');
         color_inp.type = "color";
         color_inp.value = Settings.color;
-
+        
+        
+        var fill_color_inp = document.createElement('input');
+        fill_color_inp.type = "color";
+        fill_color_inp.value = Settings.fill_color;
         
         var div_inp = document.createElement('div');
         var label = document.createElement('label');
@@ -684,6 +712,30 @@ try{
         div_inp.appendChild(label);
         div_inp.appendChild(color_inp);
         menu.appendChild(div_inp);
+        
+        var div_inp = document.createElement('div');
+        var label = document.createElement('label');
+        label.className = 'AIDO_labels';
+        label.setAttribute('for', 'AIDO_inp_color');
+        label.innerHTML = TEXT_fill_inp_color;
+        
+        div_inp.appendChild(label);
+        div_inp.appendChild(fill_color_inp);
+        menu.appendChild(div_inp);
+        delete div_inp;
+        delete label;
+        
+        var change_fill = document.createElement('input');
+        change_fill.type = "checkbox";
+        
+        var div_inp = document.createElement('div');
+        var label = document.createElement('label');
+        label.className = 'AIDO_labels';
+        label.setAttribute('for', 'AIDO_inp_size');
+        label.innerHTML = TEXT_change_fill;
+        div_inp.appendChild(label);
+        div_inp.appendChild(change_fill);
+        menu.appendChild(div_inp);
         delete div_inp;
         delete label;
         
@@ -703,7 +755,9 @@ try{
         
         inp_size.oninput = function(){ change_style(1) };
         color_inp.oninput = function(){ change_style(2) };
+        fill_color_inp.oninput = function(){ change_style(7) };
         inp_means.oninput = function(){ change_style(3) };
+        change_fill.oninput = function(){ change_style(8) };
         
         inp_sett_cleaner_width.oninput = function(){ change_style("width_cleaner") };
         inp_sett_cleaner_height.oninput = function(){ change_style("height_cleaner") };
@@ -728,6 +782,7 @@ try{
         margin: 1px 4px;\
         margin-bottom: 10px;\
         transition: border 1s;\
+        outline:none;\
     }\
     .AIDO_inputs:hover,focus, active{\
     border: 1px solid #88dd88;\
